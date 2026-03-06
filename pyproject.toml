@@ -1,0 +1,21 @@
+[project]
+name = "oas-knowledge-graph"
+version = "0.1.0"
+description = "Add your description here"
+requires-python = ">=3.13"
+dependencies = [
+    "ag-ui-protocol>=0.1.10",
+    "agno>=2.4.8",
+    "fastapi>=0.128.3",
+    "fastmcp>=2.14.5",
+    "httpx>=0.28.1",
+    "ipykernel>=7.1.0",
+    "mcp>=1.26.0",
+    "neo4j>=6.1.0",
+    "numpy>=2.4.2",
+    "openai>=2.17.0",
+    "pydantic>=2.12.5",
+    "pydantic-settings>=2.12.0",
+    "pyyaml>=6.0.3",
+    "torch>=2.10.0",
+]
