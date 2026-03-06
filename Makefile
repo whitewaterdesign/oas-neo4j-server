@@ -22,7 +22,7 @@ dev:
 
 # Run the agent
 run-mcp:
-	. venv/bin/activate && python -m app.client.agent
+	python -m app.client.agent
 
 # Clean up
 clean:

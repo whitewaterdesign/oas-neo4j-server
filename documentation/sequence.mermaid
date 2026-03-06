@@ -1,0 +1,37 @@
+---
+title: Architecture
+---
+sequenceDiagram
+  actor User
+  participant AGUIClient
+  participant OpenAPICypherAgent
+  participant MCPServer
+  participant LLM
+  participant Neo4JServer
+  break Init
+    IngestEngine->>Neo4JServer:OASSpec_to_Graph
+    MCPServer->>Neo4JServer:Estabilish connection
+    OpenAPICypherAgent->>MCPServer: get tools
+  end
+  User->>AGUIClient:query
+  AGUIClient->>OpenAPICypherAgent:query
+  loop until response
+    OpenAPICypherAgent->>LLM:query,tools
+    LLM->>OpenAPICypherAgent:get schema
+    OpenAPICypherAgent->>MCPServer:get schema
+    MCPServer->>Neo4JServer:get schema
+    Neo4JServer->>MCPServer:schema
+    MCPServer->>OpenAPICypherAgent:schema
+    OpenAPICypherAgent->>LLM:query,tools,schema
+    LLM->>OpenAPICypherAgent:CYPHER query
+    OpenAPICypherAgent->>MCPServer:CYPHER query
+    MCPServer->>OpenAPICypherAgent:CYPHER response
+    OpenAPICypherAgent->>LLM:query,tools,schema,CYPHER response
+    LLM->>OpenAPICypherAgent:response or toolcall
+    OpenAPICypherAgent->>OpenAPICypherAgent:loop or respond
+  end
+  OpenAPICypherAgent->>AGUIClient:response
+  AGUIClient->>User:response
+%%    Neo4JServer->>
+%%
+%%    AGUIClient
