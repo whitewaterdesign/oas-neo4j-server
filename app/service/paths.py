@@ -3,29 +3,30 @@ from neo4j import Session
 from app.model.paths import PathItemPartial, OperationPartial, ParameterPartial, Parameter, Reference
 
 def create_reference_node(session: Session, title: str, path: str, reference: Reference):
-
+    pass
 
 def create_parameters_node(session: Session, title: str, path:str, method:str, parameter: Parameter | Reference):
-    params = parameter.model_dump()
-    props = {
-        "name": params.get('name'),
-        "in": params.get('in_param'),
-        "description": params.get('description'),
-        "required": params.get('required'),
-        "deprecated": params.get('deprecated'),
-        "allowEmptyValue": params.get('allowEmptyValue'),
-        "style": params.get('style'),
-        "explode": params.get('explode'),
-        "allowReserved": params.get('allowReserved'),
-    }
-    if parameter.schema:
-        props['param_schema'] = parameter.param_schema.model_dump_json()
-
-    session.run("""
-        MATCH (a:Api {name: $title})-[:HAS_PATH]->(p:Path {name: $path})-[:HAS_METHOD]->(m:Method {method: $method})
-        MERGE (m)-[:HAS_PARAMETER]->(p:Parameter {name: $props.name})
-        SET p += $props
-    """, title=title, path=path, method=method, props=props)
+    pass
+    # params = parameter.model_dump()
+    # props = {
+    #     "name": params.get('name'),
+    #     "in": params.get('in_param'),
+    #     "description": params.get('description'),
+    #     "required": params.get('required'),
+    #     "deprecated": params.get('deprecated'),
+    #     "allowEmptyValue": params.get('allowEmptyValue'),
+    #     "style": params.get('style'),
+    #     "explode": params.get('explode'),
+    #     "allowReserved": params.get('allowReserved'),
+    # }
+    # if parameter.param_schema:
+    #     props['param_schema'] = parameter.param_schema
+    #
+    # session.run("""
+    #     MATCH (a:Api {name: $title})-[:HAS_PATH]->(p:Path {name: $path})-[:HAS_METHOD]->(m:Method {method: $method})
+    #     MERGE (m)-[:HAS_PARAMETER]->(p:Parameter {name: $props.name})
+    #     SET p += $props
+    # """, title=title, path=path, method=method, props=props)
 
 def create_paths_nodes(session: Session, title: str, paths: dict[str, PathItemPartial]):
     for path, path_item in paths.items():

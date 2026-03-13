@@ -3,8 +3,8 @@ title: Architecture
 ---
 flowchart TB
   IngestEngine-->Neo4JServer
-  MCPServer-->Neo4JServer
+  ToolingServer-->Neo4JServer
   User-->AGUIClient
   AGUIClient-->OpenAPICypherAgent
   OpenAPICypherAgent-->LLM
-  OpenAPICypherAgent-->MCPServer
+  OpenAPICypherAgent-->ToolingServer
